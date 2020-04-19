@@ -1,4 +1,5 @@
 import * as React from "react";
+import moment from "moment";
 import { Bar } from "react-chartjs-2";
 import { Component } from "react";
 import axios from "axios";
@@ -30,7 +31,7 @@ class App extends Component<PropType, StateType> {
           covidRecord.state === "VA" && covidRecord.positiveIncrease !== null
       );
       const data = {
-        labels: vaRecords.map((cr: CovidRecord) => cr.date),
+        labels: vaRecords.map((cr: CovidRecord) => moment(cr.date, 'YYYYMMDD').format('MMM Do')),
         datasets: [
           {
             label: "New Positives",
