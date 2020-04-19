@@ -34,19 +34,29 @@ class App extends Component<PropType, StateType> {
         datasets: [
           {
             label: "New Positives",
-            data: vaRecords.map((cr: CovidRecord) => cr.positiveIncrease)
+            data: vaRecords.map((cr: CovidRecord) => cr.positiveIncrease),
+            backgroundColor: "#3d9970",
+            borderWidth: 1,
+            borderColor: "#777",
+            hoverBorderWidth: 3,
+            hoverBorderColor: "#000"
           }
         ]
       };
+
+      const options = {
+        title: {
+          display: true,
+          text: "VA Daily Positive Covid Tests",
+          fontSize: 25
+        },
+        legend: {
+          display: false,
+        }
+      };
       return (
         <div>
-          <Bar data={data} />
-          {vaRecords.map((covidRecord: CovidRecord) => (
-            <div key={covidRecord.date + covidRecord.state}>
-              {covidRecord.date} &nbsp; {covidRecord.state} &nbsp;
-              {covidRecord.positiveIncrease}
-            </div>
-          ))}
+          <Bar data={data} options={options} />
         </div>
       );
     }
