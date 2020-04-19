@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Bar } from "react-chartjs-2";
 import { Component } from "react";
 import axios from "axios";
 import "./App.css";
@@ -24,20 +25,28 @@ class App extends Component<PropType, StateType> {
     if (this.state.loading) {
       return <div>loading</div>;
     } else {
+      const vaRecords = this.state.covidRecords.filter(
+        (covidRecord: CovidRecord) =>
+          covidRecord.state === "VA" && covidRecord.positiveIncrease !== null
+      );
+      const data = {
+        labels: vaRecords.map((cr: CovidRecord) => cr.date),
+        datasets: [
+          {
+            label: "New Positives",
+            data: vaRecords.map((cr: CovidRecord) => cr.positiveIncrease)
+          }
+        ]
+      };
       return (
         <div>
-          {this.state.covidRecords
-            .filter(
-              (covidRecord: CovidRecord) =>
-                covidRecord.state === "VA" &&
-                covidRecord.positiveIncrease !== null
-            )
-            .map((covidRecord: CovidRecord) => (
-              <div key={covidRecord.date + covidRecord.state}>
-                {covidRecord.date} &nbsp; {covidRecord.state} &nbsp;
-                {covidRecord.positiveIncrease}
-              </div>
-            ))}
+          <Bar data={data} />
+          {vaRecords.map((covidRecord: CovidRecord) => (
+            <div key={covidRecord.date + covidRecord.state}>
+              {covidRecord.date} &nbsp; {covidRecord.state} &nbsp;
+              {covidRecord.positiveIncrease}
+            </div>
+          ))}
         </div>
       );
     }
