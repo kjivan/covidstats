@@ -4,11 +4,12 @@ import { Bar } from "react-chartjs-2";
 import { Component } from "react";
 import axios from "axios";
 import "./App.css";
+import Search from "./components/Search";
 
 class App extends Component<PropType, StateType> {
   state = {
     loading: true,
-    state: "VA",
+    usState: "VA",
     covidRecords: []
   };
 
@@ -29,7 +30,7 @@ class App extends Component<PropType, StateType> {
     } else {
       const vaRecords = this.state.covidRecords.filter(
         (covidRecord: CovidRecord) =>
-          covidRecord.state === this.state.state &&
+          covidRecord.state === this.state.usState &&
           covidRecord.positiveIncrease !== null
       );
       const data = {
@@ -39,7 +40,7 @@ class App extends Component<PropType, StateType> {
         datasets: [
           {
             label: "New Positives",
-            data: vaRecords.map((cr: CovidRecord) => cr.positiveIncrease),
+            data: vaRecords.map((cr: CovidRecord) => cr.hospitalizedCurrently),
             backgroundColor: "#3d9970",
             borderWidth: 1,
             borderColor: "#777",
@@ -52,7 +53,7 @@ class App extends Component<PropType, StateType> {
       const options = {
         title: {
           display: true,
-          text: this.state.state + " Daily Positive Covid Tests",
+          text: this.state.usState + " Daily Positive Covid Tests",
           fontSize: 25
         },
         legend: {
@@ -61,32 +62,24 @@ class App extends Component<PropType, StateType> {
       };
       return (
         <div>
-          <form className="form">
-            <input
-              type="text"
-              name="state"
-              placeholder="State..."
-              value={this.state.state}
-              onChange={this.onChange}
-            />
-          </form>
+          <Search updateGraph={this.updateGraph}></Search>
           <Bar data={data} options={options} />
         </div>
       );
     }
   }
 
-  onChange = (e: {target: {value: any;};}) => this.setState({ state: e.target.value });
+  updateGraph = (state: string) => this.setState({ usState: state});
   onSubmit = (e: {preventDefault: () => void;}) => {
     e.preventDefault();
-    this.setState({ state: "" });
+    this.setState({ usState: "" });
   };
 }
 
 type PropType = {};
 type StateType = {
   loading: boolean;
-  state: string;
+  usState: string;
   covidRecords: CovidRecord[];
 };
 type CovidRecord = {
