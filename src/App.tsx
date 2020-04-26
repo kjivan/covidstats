@@ -5,6 +5,7 @@ import { Component } from "react";
 import axios from "axios";
 import "./App.css";
 import Search from "./components/Search";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 
 class App extends Component<PropType, StateType> {
   state = {
@@ -62,15 +63,22 @@ class App extends Component<PropType, StateType> {
       };
       return (
         <div>
-          <Search updateGraph={this.updateGraph}></Search>
+          <Search
+            updateGraph={this.updateGraph}
+            usStates={[
+              ...new Set(
+                this.state.covidRecords.map((r: CovidRecord) => r.state)
+              )
+            ]}
+          ></Search>
           <Bar data={data} options={options} />
         </div>
       );
     }
   }
 
-  updateGraph = (state: string) => this.setState({ usState: state});
-  onSubmit = (e: {preventDefault: () => void;}) => {
+  updateGraph = (state: string) => this.setState({ usState: state });
+  onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     this.setState({ usState: "" });
   };

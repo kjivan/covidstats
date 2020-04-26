@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Typeahead } from "react-bootstrap-typeahead";
 
 export default class Search extends Component<PropType, StateType> {
   state = {
@@ -8,21 +9,13 @@ export default class Search extends Component<PropType, StateType> {
   render() {
     return (
       <div>
-        <form className="form">
-          <input
-            type="text"
-            name="state"
-            placeholder="State..."
-            value={this.state.usState}
-            onChange={this.onChange}
-          />
-        </form>
+        <Typeahead onChange={this.onChange} options={this.props.usStates} />
       </div>
     );
   }
-  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ usState: e.target.value });
-    this.props.updateGraph(e.target.value);
+  onChange = (selectedState: string[]) => {
+    this.setState({ usState: selectedState[0] });
+    this.props.updateGraph(selectedState[0]);
   };
 }
 
@@ -30,5 +23,5 @@ interface updateGraphFn {
   (usState: string): void;
 }
 
-type PropType = { updateGraph: updateGraphFn };
+type PropType = { updateGraph: updateGraphFn; usStates: string[] };
 type StateType = {};
