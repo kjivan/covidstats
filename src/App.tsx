@@ -40,7 +40,7 @@ class App extends Component<PropType, StateType> {
         datasets: [
           {
             label: "New Positives",
-            data: vaRecords.map((cr: CovidRecord) => cr.hospitalizedCurrently),
+            data: vaRecords.map((cr: CovidRecord) => cr.positiveIncrease),
             backgroundColor: "#3d9970",
             borderWidth: 1,
             borderColor: "#777",
@@ -62,15 +62,22 @@ class App extends Component<PropType, StateType> {
       };
       return (
         <div>
-          <Search updateGraph={this.updateGraph}></Search>
+          <Search
+            updateGraph={this.updateGraph}
+            usStates={[
+              ...new Set(
+                this.state.covidRecords.map((cr: CovidRecord) => cr.state)
+              )
+            ]}
+          ></Search>
           <Bar data={data} options={options} />
         </div>
       );
     }
   }
 
-  updateGraph = (state: string) => this.setState({ usState: state});
-  onSubmit = (e: {preventDefault: () => void;}) => {
+  updateGraph = (state: string) => this.setState({ usState: state });
+  onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     this.setState({ usState: "" });
   };
