@@ -16,7 +16,7 @@ export default class Search extends Component<PropType, StateType> {
           style={{ margin: 20, width: 300 }}
           onChange={this.handleChange}
           renderInput={params => (
-            <TextField {...params} label="Combo box" variant="outlined" />
+            <TextField {...params} label="State" variant="outlined" />
           )}
         />
       </div>
