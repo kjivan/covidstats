@@ -5,6 +5,7 @@ import { Component } from "react";
 import axios from "axios";
 import "./App.css";
 import Search from "./components/Search";
+import {Container} from "@material-ui/core";
 
 class App extends Component<PropType, StateType> {
   state = {
@@ -61,7 +62,7 @@ class App extends Component<PropType, StateType> {
         }
       };
       return (
-        <div>
+        <Container>
           <Search
             updateGraph={this.updateGraph}
             usStates={[
@@ -71,7 +72,7 @@ class App extends Component<PropType, StateType> {
             ]}
           ></Search>
           <Bar data={data} options={options} />
-        </div>
+        </Container>
       );
     }
   }
