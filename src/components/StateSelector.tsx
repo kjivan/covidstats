@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-export default class Search extends Component<PropType, StateType> {
+export default class StateSelector extends Component<PropType, StateType> {
   state = {
     selectedState: "VA"
   };
@@ -26,14 +26,14 @@ export default class Search extends Component<PropType, StateType> {
   handleChange = (event: React.ChangeEvent<{}>, value: string | null) => {
     if (value) {
       this.setState({ selectedState: value });
-      this.props.updateGraph(value);
+      this.props.updateState(value);
     }
   };
 }
 
-interface updateGraphFn {
+interface updateStateFn {
   (usState: string): void;
 }
 
-type PropType = { updateGraph: updateGraphFn; usStates: string[] };
+type PropType = { updateState: updateStateFn; usStates: string[] };
 type StateType = { selectedState: string };

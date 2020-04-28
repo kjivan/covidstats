@@ -1,16 +1,21 @@
-import * as React from "react";
-import moment from "moment";
-import { Bar } from "react-chartjs-2";
-import { Component } from "react";
+import { Box } from "@material-ui/core";
 import axios from "axios";
+import moment from "moment";
+import * as React from "react";
+import { Component } from "react";
+import { Bar } from "react-chartjs-2";
 import "./App.css";
-import Search from "./components/Search";
-import {Container} from "@material-ui/core";
+import StateSelector from "./components/StateSelector";
+import MetricSelector from "./components/MetricSelector";
+import { height } from "@material-ui/system";
 
 class App extends Component<PropType, StateType> {
+  covidRecord = new CovidRecord();
+
   state = {
     loading: true,
     usState: "VA",
+    metric: "positive" as CovidRecordKey,
     covidRecords: []
   };
 
@@ -41,7 +46,7 @@ class App extends Component<PropType, StateType> {
         datasets: [
           {
             label: "New Positives",
-            data: vaRecords.map((cr: CovidRecord) => cr.positiveIncrease),
+            data: vaRecords.map((cr: CovidRecord) => cr[this.state.metric]),
             backgroundColor: "#3d9970",
             borderWidth: 1,
             borderColor: "#777",
@@ -62,22 +67,30 @@ class App extends Component<PropType, StateType> {
         }
       };
       return (
-        <Container>
-          <Search
-            updateGraph={this.updateGraph}
-            usStates={[
-              ...new Set(
-                this.state.covidRecords.map((cr: CovidRecord) => cr.state)
-              )
-            ]}
-          ></Search>
+        <Box style={{ height: "50%" }}>
+          <Box display={"flex"} flexDirection={"row"}>
+            <StateSelector
+              updateState={this.updateState}
+              usStates={[
+                ...new Set(
+                  this.state.covidRecords.map((cr: CovidRecord) => cr.state)
+                )
+              ]}
+            ></StateSelector>
+            <MetricSelector
+              updateMetric={this.updateMetric}
+              metrics={Object.keys(this.covidRecord)}
+            ></MetricSelector>
+          </Box>
           <Bar data={data} options={options} />
-        </Container>
+        </Box>
       );
     }
   }
 
-  updateGraph = (state: string) => this.setState({ usState: state });
+  updateState = (state: string) => this.setState({ usState: state });
+  updateMetric = (metric: string) =>
+    this.setState({ metric: metric as CovidRecordKey });
   onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     this.setState({ usState: "" });
@@ -88,34 +101,39 @@ type PropType = {};
 type StateType = {
   loading: boolean;
   usState: string;
+  metric: CovidRecordKey;
   covidRecords: CovidRecord[];
 };
-type CovidRecord = {
-  date: number;
-  state: string;
-  positive: number;
-  negative: number;
-  pending: number;
-  hospitalizedCurrently: number;
-  hospitalizedCumulative: number;
-  inIcuCurrently: number;
-  inIcuCumulative: number;
-  onVentilatorCurrently: number;
-  onVentilatorCumulative: number;
-  recovered: number;
-  hash: string;
-  dateChecked: string;
-  death: number;
-  hospitalized: number;
-  total: number;
-  totalTestResults: number;
-  posNeg: number;
-  fips: string;
-  deathIncrease: number;
-  hospitalizedIncrease: number;
-  negativeIncrease: number;
-  positiveIncrease: number;
-  totalTestResultsIncrease: number;
-};
+
+class CovidRecord {
+  date = 0;
+  state = "";
+  positive = 0;
+  negative = 0;
+  pending = 0;
+  hospitalizedCurrently = 0;
+  hospitalizedCumulative = 0;
+  inIcuCurrently = 0;
+  inIcuCumulative = 0;
+  onVentilatorCurrently = 0;
+  onVentilatorCumulative = 0;
+  recovered = 0;
+  hash = "";
+  dateChecked = "";
+  death = 0;
+  hospitalized = 0;
+  total = 0;
+  totalTestResults = 0;
+  posNeg = 0;
+  fips = "";
+  deathIncrease = 0;
+  hospitalizedIncrease = 0;
+  negativeIncrease = 0;
+  positiveIncrease = 0;
+  totalTestResultsIncrease = 0;
+}
+
+
+type CovidRecordKey = keyof CovidRecord;
 
 export default App;
