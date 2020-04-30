@@ -12,6 +12,7 @@ export default class MetricSelector extends Component<PropType, StateType> {
       <div>
         <Autocomplete
           id="metric-selector"
+          autoHighlight
           options={this.props.metrics}
           style={{ margin: 20, width: 300 }}
           onChange={this.handleChange}

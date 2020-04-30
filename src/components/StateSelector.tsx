@@ -12,6 +12,7 @@ export default class StateSelector extends Component<PropType, StateType> {
       <div>
         <Autocomplete
           id="state-selector"
+          autoHighlight
           options={this.props.usStates}
           style={{ margin: 20, width: 300 }}
           onChange={this.handleChange}
