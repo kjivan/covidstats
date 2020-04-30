@@ -7,7 +7,6 @@ import { Bar } from "react-chartjs-2";
 import "./App.css";
 import StateSelector from "./components/StateSelector";
 import MetricSelector from "./components/MetricSelector";
-import { height } from "@material-ui/system";
 
 class App extends Component<PropType, StateType> {
   covidRecord = new CovidRecord();
@@ -59,7 +58,7 @@ class App extends Component<PropType, StateType> {
       const options = {
         title: {
           display: true,
-          text: this.state.usState + " Daily Positive Covid Tests",
+          text: `${this.state.usState} ${this.state.metric}`,
           fontSize: 25
         },
         legend: {
@@ -132,7 +131,6 @@ class CovidRecord {
   positiveIncrease = 0;
   totalTestResultsIncrease = 0;
 }
-
 
 type CovidRecordKey = keyof CovidRecord;
 
