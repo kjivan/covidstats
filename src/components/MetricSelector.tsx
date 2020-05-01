@@ -13,6 +13,7 @@ export default class MetricSelector extends Component<PropType, StateType> {
         <Autocomplete
           id="metric-selector"
           autoHighlight
+          openOnFocus
           options={this.props.metrics}
           style={{ margin: 20, width: 300 }}
           onChange={this.handleChange}

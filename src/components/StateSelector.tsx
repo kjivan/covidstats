@@ -13,6 +13,7 @@ export default class StateSelector extends Component<PropType, StateType> {
         <Autocomplete
           id="state-selector"
           autoHighlight
+          openOnFocus
           options={this.props.usStates}
           style={{ margin: 20, width: 300 }}
           onChange={this.handleChange}
