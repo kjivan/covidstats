@@ -7,13 +7,15 @@ import { Bar } from "react-chartjs-2";
 import "./App.css";
 import StateSelector from "./components/StateSelector";
 import MetricSelector from "./components/MetricSelector";
+import { UsStateTerritory } from "./interfaces/UsStatesTerritories";
 
 class App extends Component<PropType, StateType> {
   covidRecord = new CovidRecord();
 
   state = {
     loading: true,
-    usState: "VA",
+    usStateAbbrev: "VA",
+    usStateName: "Virginia",
     metric: "positive" as CovidRecordKey,
     covidRecords: []
   };
@@ -35,7 +37,7 @@ class App extends Component<PropType, StateType> {
     } else {
       const vaRecords = this.state.covidRecords.filter(
         (covidRecord: CovidRecord) =>
-          covidRecord.state === this.state.usState &&
+          covidRecord.state === this.state.usStateAbbrev &&
           covidRecord.positiveIncrease !== null
       );
       const data = {
@@ -58,7 +60,7 @@ class App extends Component<PropType, StateType> {
       const options = {
         title: {
           display: true,
-          text: `${this.state.usState} ${this.state.metric}`,
+          text: `${this.state.usStateName} ${this.state.metric}`,
           fontSize: 25
         },
         legend: {
@@ -87,19 +89,21 @@ class App extends Component<PropType, StateType> {
     }
   }
 
-  updateState = (state: string) => this.setState({ usState: state });
+  updateState = (state: UsStateTerritory) =>
+    this.setState({ usStateAbbrev: state.abbrev, usStateName: state.name });
   updateMetric = (metric: string) =>
     this.setState({ metric: metric as CovidRecordKey });
   onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    this.setState({ usState: "" });
+    this.setState({ usStateAbbrev: "" });
   };
 }
 
 type PropType = {};
 type StateType = {
   loading: boolean;
-  usState: string;
+  usStateAbbrev: string;
+  usStateName: string;
   metric: CovidRecordKey;
   covidRecords: CovidRecord[];
 };
