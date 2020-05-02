@@ -8,6 +8,7 @@ import "./App.css";
 import StateSelector from "./components/StateSelector";
 import MetricSelector from "./components/MetricSelector";
 import { UsStateTerritory } from "./interfaces/UsStatesTerritories";
+import { MetricFriendlyName } from "./interfaces/MetricFriendlyNames";
 
 class App extends Component<PropType, StateType> {
   covidRecord = new CovidRecord();
@@ -17,6 +18,7 @@ class App extends Component<PropType, StateType> {
     usStateAbbrev: "VA",
     usStateName: "Virginia",
     metric: "positive" as CovidRecordKey,
+    metricFriendlyName: "Positive Tests",
     covidRecords: []
   };
 
@@ -46,7 +48,7 @@ class App extends Component<PropType, StateType> {
         ),
         datasets: [
           {
-            label: "New Positives",
+            label: this.state.metricFriendlyName,
             data: vaRecords.map((cr: CovidRecord) => cr[this.state.metric]),
             backgroundColor: "#3d9970",
             borderWidth: 1,
@@ -60,7 +62,7 @@ class App extends Component<PropType, StateType> {
       const options = {
         title: {
           display: true,
-          text: `${this.state.usStateName} ${this.state.metric}`,
+          text: `${this.state.usStateName} - ${this.state.metricFriendlyName}`,
           fontSize: 25
         },
         legend: {
@@ -91,8 +93,11 @@ class App extends Component<PropType, StateType> {
 
   updateState = (state: UsStateTerritory) =>
     this.setState({ usStateAbbrev: state.abbrev, usStateName: state.name });
-  updateMetric = (metric: string) =>
-    this.setState({ metric: metric as CovidRecordKey });
+  updateMetric = (metricFriendlyName: MetricFriendlyName) =>
+    this.setState({
+      metric: metricFriendlyName.metric as CovidRecordKey,
+      metricFriendlyName: metricFriendlyName.friendlyName
+    });
   onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     this.setState({ usStateAbbrev: "" });
@@ -105,6 +110,7 @@ type StateType = {
   usStateAbbrev: string;
   usStateName: string;
   metric: CovidRecordKey;
+  metricFriendlyName: string;
   covidRecords: CovidRecord[];
 };
 

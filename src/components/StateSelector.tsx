@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import {UsStatesTerritories, UsStateTerritory} from "../interfaces/UsStatesTerritories";
+import {
+  UsStatesTerritories,
+  UsStateTerritory
+} from "../interfaces/UsStatesTerritories";
 
 export default class StateSelector extends Component<PropType, StateType> {
-  state = {
-    selectedState: "VA"
-  };
+  state = {};
 
   render() {
     return (
@@ -32,7 +33,6 @@ export default class StateSelector extends Component<PropType, StateType> {
     value: UsStateTerritory | null
   ) => {
     if (value) {
-      this.setState({ selectedState: value.abbrev });
       this.props.updateState(value);
     }
   };
@@ -43,4 +43,4 @@ interface updateStateFn {
 }
 
 type PropType = { updateState: updateStateFn; usStates: string[] };
-type StateType = { selectedState: string };
+type StateType = {};

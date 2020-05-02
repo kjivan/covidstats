@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField } from "@material-ui/core";
+import {
+  MetricFriendlyNames,
+  MetricFriendlyName
+} from "../interfaces/MetricFriendlyNames";
 
 export default class MetricSelector extends Component<PropType, StateType> {
-  state = {
-    selectedMetric: "positive"
-  };
+  state = {};
 
   render() {
     return (
@@ -14,7 +16,8 @@ export default class MetricSelector extends Component<PropType, StateType> {
           id="metric-selector"
           autoHighlight
           openOnFocus
-          options={this.props.metrics}
+          options={MetricFriendlyNames as any}
+          getOptionLabel={(option: MetricFriendlyName) => option.friendlyName}
           style={{ margin: 20, width: 300 }}
           onChange={this.handleChange}
           renderInput={params => (
@@ -25,17 +28,19 @@ export default class MetricSelector extends Component<PropType, StateType> {
     );
   }
 
-  handleChange = (event: React.ChangeEvent<{}>, value: string | null) => {
+  handleChange = (
+    event: React.ChangeEvent<{}>,
+    value: MetricFriendlyName | null
+  ) => {
     if (value) {
-      this.setState({ selectedMetric: value });
       this.props.updateMetric(value);
     }
   };
 }
 
 interface updateMetricFn {
-  (metric: string): void;
+  (metric: MetricFriendlyName): void;
 }
 
 type PropType = { updateMetric: updateMetricFn; metrics: string[] };
-type StateType = { selectedMetric: string };
+type StateType = {};
