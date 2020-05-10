@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
+import { TextField, Box } from "@material-ui/core";
 import {
   MetricFriendlyNames,
   MetricFriendlyName
@@ -11,20 +11,20 @@ export default class MetricSelector extends Component<PropType, StateType> {
 
   render() {
     return (
-      <div>
+      <Box flexGrow={"1"} style={{ margin: 20 }}>
         <Autocomplete
           id="metric-selector"
           autoHighlight
           openOnFocus
+          fullWidth
           options={MetricFriendlyNames as any}
           getOptionLabel={(option: MetricFriendlyName) => option.friendlyName}
-          style={{ margin: 20, width: 300 }}
           onChange={this.handleChange}
           renderInput={params => (
             <TextField {...params} label="Metric" variant="outlined" />
           )}
         />
-      </div>
+      </Box>
     );
   }
 
