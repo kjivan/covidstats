@@ -28,7 +28,8 @@ export default class Graph extends Component<PropType, StateType> {
       },
       legend: {
         display: false
-      }
+      },
+      maintainAspectRatio: false
     };
     return <Bar data={data} options={options} />;
   }

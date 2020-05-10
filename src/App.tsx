@@ -60,7 +60,7 @@ class App extends Component<PropType, StateType> {
               metrics={Object.keys(this.covidRecord)}
             ></MetricSelector>
           </Box>
-          <Box>
+          <Box height="75vh">
             <Graph
               records={vaRecords}
               dataLabels={vaRecords.map((cr: CovidRecord) =>
