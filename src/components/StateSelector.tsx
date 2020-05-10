@@ -5,26 +5,29 @@ import {
   UsStatesTerritories,
   UsStateTerritory
 } from "../interfaces/UsStatesTerritories";
+import { Box } from "@material-ui/core";
 
 export default class StateSelector extends Component<PropType, StateType> {
   state = {};
 
   render() {
     return (
-      <div>
+      <Box flexGrow={"1"} style={{ margin: 20 }}>
         <Autocomplete
           id="state-selector"
+          autoSelect
+          fullWidth
+          autoComplete
           autoHighlight
           openOnFocus
           options={UsStatesTerritories as any}
           getOptionLabel={(option: UsStateTerritory) => option.name}
-          style={{ margin: 20, width: 300 }}
           onChange={this.handleChange}
           renderInput={params => (
             <TextField {...params} label="State" variant="outlined" />
           )}
         />
-      </div>
+      </Box>
     );
   }
 
