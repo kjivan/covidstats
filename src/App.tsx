@@ -25,7 +25,7 @@ class App extends Component<PropType, StateType> {
 
   getCovidTrackingData = async () => {
     const res = await axios.get(
-      "https://covidtracking.com/api/v1/states/daily.json"
+      "https://api.covidtracking.com/v1/states/daily.json"
     );
     this.setState({ covidRecords: res.data, loading: false });
   };
