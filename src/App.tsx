@@ -10,6 +10,7 @@ import { UsStateTerritory } from "./interfaces/UsStatesTerritories";
 import { MetricFriendlyName } from "./interfaces/MetricFriendlyNames";
 import Graph from "./components/Graph";
 import { CovidRecordKey, CovidRecord } from "./interfaces/CovidRecord";
+import Spinner from "./components/Spinner";
 
 class App extends Component<PropType, StateType> {
   covidRecord = new CovidRecord();
@@ -20,7 +21,7 @@ class App extends Component<PropType, StateType> {
     usStateName: "Virginia",
     metric: "positive" as CovidRecordKey,
     metricFriendlyName: "Positive Tests",
-    covidRecords: []
+    covidRecords: [],
   };
 
   getCovidTrackingData = async () => {
@@ -36,7 +37,7 @@ class App extends Component<PropType, StateType> {
 
   render() {
     if (this.state.loading) {
-      return <Box>loading</Box>;
+      return <Spinner />;
     } else {
       const vaRecords = this.state.covidRecords.filter(
         (covidRecord: CovidRecord) =>
@@ -52,7 +53,7 @@ class App extends Component<PropType, StateType> {
               usStates={[
                 ...new Set(
                   this.state.covidRecords.map((cr: CovidRecord) => cr.state)
-                )
+                ),
               ]}
             ></StateSelector>
             <MetricSelector
@@ -71,6 +72,15 @@ class App extends Component<PropType, StateType> {
               title={`${this.state.usStateName} - ${this.state.metricFriendlyName}`}
             ></Graph>
           </Box>
+          <div style={{ margin: 20, fontSize: "xx-small" }}>
+            <p>
+              Date provided by
+              <a href="https://covidtracking.com/" target="_blank">
+                The COVID Tracking Project
+              </a>
+            </p>
+            <p>Favicon made by Freepik from www.flaticon.com</p>
+          </div>
         </Box>
       );
     }
@@ -81,7 +91,7 @@ class App extends Component<PropType, StateType> {
   updateMetric = (metricFriendlyName: MetricFriendlyName) =>
     this.setState({
       metric: metricFriendlyName.metric as CovidRecordKey,
-      metricFriendlyName: metricFriendlyName.friendlyName
+      metricFriendlyName: metricFriendlyName.friendlyName,
     });
   onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
