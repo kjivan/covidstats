@@ -39,11 +39,13 @@ class App extends Component<PropType, StateType> {
     if (this.state.loading) {
       return <Spinner />;
     } else {
-      const vaRecords = this.state.covidRecords.filter(
-        (covidRecord: CovidRecord) =>
-          covidRecord.state === this.state.usStateAbbrev &&
-          covidRecord.positiveIncrease !== null
-      );
+      const records = this.state.covidRecords
+        .filter(
+          (covidRecord: CovidRecord) =>
+            covidRecord.state === this.state.usStateAbbrev &&
+            covidRecord.positiveIncrease !== null
+        )
+        .reverse();
 
       return (
         <Box>
@@ -63,11 +65,11 @@ class App extends Component<PropType, StateType> {
           </Box>
           <Box height="75vh">
             <Graph
-              records={vaRecords}
-              dataLabels={vaRecords.map((cr: CovidRecord) =>
+              records={records}
+              dataLabels={records.map((cr: CovidRecord) =>
                 moment(cr.date, "YYYYMMDD").format("MMM Do")
               )}
-              data={vaRecords.map((cr: CovidRecord) => cr[this.state.metric])}
+              data={records.map((cr: CovidRecord) => cr[this.state.metric])}
               label={this.state.metricFriendlyName}
               title={`${this.state.usStateName} - ${this.state.metricFriendlyName}`}
             ></Graph>
