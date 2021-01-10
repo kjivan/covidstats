@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   UsStatesTerritories,
-  UsStateTerritory
+  UsStateTerritory,
 } from "../interfaces/UsStatesTerritories";
 import { Box } from "@material-ui/core";
 
@@ -23,7 +23,8 @@ export default class StateSelector extends Component<PropType, StateType> {
           options={UsStatesTerritories as any}
           getOptionLabel={(option: UsStateTerritory) => option.name}
           onChange={this.handleChange}
-          renderInput={params => (
+          value={this.props.selectedState}
+          renderInput={(params) => (
             <TextField {...params} label="State" variant="outlined" />
           )}
         />
@@ -45,5 +46,9 @@ interface updateStateFn {
   (usState: UsStateTerritory): void;
 }
 
-type PropType = { updateState: updateStateFn; usStates: string[] };
+type PropType = {
+  updateState: updateStateFn;
+  usStates: string[];
+  selectedState: UsStateTerritory;
+};
 type StateType = {};

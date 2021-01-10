@@ -51,6 +51,10 @@ class App extends Component<PropType, StateType> {
         <Box>
           <Box display={"flex"} flexDirection={"row"}>
             <StateSelector
+              selectedState={{
+                abbrev: this.state.usStateAbbrev,
+                name: this.state.usStateName,
+              }}
               updateState={this.updateState}
               usStates={[
                 ...new Set(
@@ -59,6 +63,10 @@ class App extends Component<PropType, StateType> {
               ]}
             ></StateSelector>
             <MetricSelector
+              selectedMetric={{
+                metric: this.state.metric,
+                friendlyName: this.state.metricFriendlyName,
+              }}
               updateMetric={this.updateMetric}
               metrics={Object.keys(this.covidRecord)}
             ></MetricSelector>

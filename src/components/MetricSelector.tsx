@@ -3,7 +3,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField, Box } from "@material-ui/core";
 import {
   MetricFriendlyNames,
-  MetricFriendlyName
+  MetricFriendlyName,
 } from "../interfaces/MetricFriendlyNames";
 
 export default class MetricSelector extends Component<PropType, StateType> {
@@ -20,7 +20,8 @@ export default class MetricSelector extends Component<PropType, StateType> {
           options={MetricFriendlyNames as any}
           getOptionLabel={(option: MetricFriendlyName) => option.friendlyName}
           onChange={this.handleChange}
-          renderInput={params => (
+          value={this.props.selectedMetric}
+          renderInput={(params) => (
             <TextField {...params} label="Metric" variant="outlined" />
           )}
         />
@@ -42,5 +43,9 @@ interface updateMetricFn {
   (metric: MetricFriendlyName): void;
 }
 
-type PropType = { updateMetric: updateMetricFn; metrics: string[] };
+type PropType = {
+  updateMetric: updateMetricFn;
+  metrics: string[];
+  selectedMetric: MetricFriendlyName;
+};
 type StateType = {};
